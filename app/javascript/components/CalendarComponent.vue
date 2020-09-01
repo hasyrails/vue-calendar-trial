@@ -34,6 +34,7 @@
           :value="today"
           :events="events"
           color="primary"
+          @click:date="showDay"
       ></v-calendar>
     </v-sheet>
   </div>
@@ -66,7 +67,12 @@
 
     },
     methods:{
-
+      showDay( e ){
+        console.log(e)
+        // 今日の日付に設定する。
+        this.today = date
+        this.type = 'day'
+      }
     }
   }
 </script>
