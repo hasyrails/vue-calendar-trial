@@ -1,15 +1,21 @@
 <template>
   <div id="app">
-    <p>{{ message }}</p>
+    <v-app>
+      <calenderComponent></calenderComponent>
+    </v-app>
   </div>
 </template>
 
 <script>
+import calenderComponent from "./components/CalendarComponent.vue";
+
 export default {
   data: function () {
     return {
-      message: "fuga Vue!"
     }
+  },
+  components: {
+    calenderComponent
   }
 }
 </script>
