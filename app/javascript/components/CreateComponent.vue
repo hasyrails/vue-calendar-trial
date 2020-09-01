@@ -11,7 +11,7 @@
             <v-row>
 
               <v-col cols="12" sm="12" md="12">
-                <v-text-field label="タイトル" required></v-text-field>
+                <v-text-field label="タイトル" required v-model="name"></v-text-field>
               </v-col>
 
 
@@ -44,7 +44,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="save">Save</v-btn>  ここsaveに変更
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -52,22 +52,50 @@
 </template>
  
 
+
 <script>
   export default {
-    name: 'createComponent',
-    data(){
-      return {
-        dialog :false,
+    data: () => ({
+        dialog : false,
         start : null,
         end : null,
-        day: "",
-      }
-    },
+        day : "",
+        name : "",
+
+    }),
     methods:{
         open(date){
             this.dialog = true;
             this.day = date;
-        }
+            this.start = null;
+            this.end = null;
+            this.name = "";
+        },
+        save(){
+            if( !this.isNotNull(this.start,this.end) ){
+                console.log("nullですw");
+                return ;
+            }
+
+            if( !this.compareDate(this.start,this.end) ){
+                console.log("dame");
+                return;
+            }
+            const params = {
+                name : this.name,
+                start : this.day + ' ' + this.start,
+                end : this.day + ' ' + this.end
+            }
+            console.log(params);
+            this.$emit('save',params);
+
+        },
+        isNotNull(start,end){
+            return start && end;
+        },
+        compareDate(start,end){
+            return start < end;
+        },
     },
   }
 </script>
