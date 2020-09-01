@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="form-modal">
-      <createComponent ref="form"></createComponent>
+      <createComponent ref="form" @save="saveEvent"></createComponent>
     </div>
 
     <v-menu bottom right>
@@ -81,6 +81,11 @@
       },
       createEvent({ date }){
         this.$refs.form.open(date);
+      },
+      saveEvent(params){
+        console.log("calendarcompoennt.xue");
+        this.events.push(params);
+        console.log(`保存しました。${params}`)
       }
     }
   }
