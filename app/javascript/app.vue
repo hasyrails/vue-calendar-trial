@@ -8,6 +8,7 @@
 
 <script>
 import calenderComponent from "./components/CalendarComponent.vue";
+// import createComponent from "./components/CreateComponent.vue";
 
 export default {
   data: function () {
@@ -15,7 +16,8 @@ export default {
     }
   },
   components: {
-    calenderComponent
+    calenderComponent,
+    // createComponent
   }
 }
 </script>

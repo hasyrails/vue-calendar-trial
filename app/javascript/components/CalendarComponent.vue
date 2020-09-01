@@ -1,5 +1,33 @@
 <template>
   <div>
+    <div id="form-modal">
+      <createComponent ref="form"></createComponent>
+    </div>
+
+    <v-menu bottom right>
+      <template v-slot:activator="{ on }">
+        <v-btn
+          outlined
+          color="grey darken-2"
+          v-on="on"
+        >
+          <span>{{type}}</span>
+        </v-btn>
+      </template>
+
+      <v-list>
+        <v-list-item @click="type = 'day'">
+          <v-list-item-title>Day</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="type = 'week'">
+          <v-list-item-title>Week</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="type = 'month'">
+          <v-list-item-title>Month</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+
     <v-sheet height="500">
       <v-calendar
           ref="calendar"
@@ -9,6 +37,8 @@
           :value="today"
           :events="events"
           color="primary"
+          @click:date="showDay"
+          @click:day="createEvent"
       ></v-calendar>
     </v-sheet>
   </div>
@@ -16,7 +46,9 @@
 
 
 <script>
+  import createComponent from '../components/CreateComponent'
   export default {
+    name: 'calendarComponent',
     data: () => ({
     today: `2020-05-19`,
     type:'month',
@@ -34,14 +66,22 @@
         },
       ],
     }),
+    components: {
+      createComponent
+    },
     computed:{
-   
     },
     mounted () {
 
     },
     methods:{
-
+      showDay( { date } ){
+        this.today = date
+        this.type = 'day'
+      },
+      createEvent({ date }){
+        this.$refs.form.open(date);
+      }
     }
   }
 </script>
