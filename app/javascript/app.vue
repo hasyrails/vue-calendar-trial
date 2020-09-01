@@ -1,13 +1,15 @@
 <template>
   <div id="app">
     <v-app>
-      <calenderComponent></calenderComponent>
+      <CalenderComponent>
+      </CalenderComponent>
     </v-app>
   </div>
 </template>
 
 <script>
-import calenderComponent from "./components/CalendarComponent.vue";
+import CalenderComponent from "./components/CalendarComponent.vue";
+
 
 export default {
   data: function () {
@@ -15,7 +17,7 @@ export default {
     }
   },
   components: {
-    calenderComponent
+    CalenderComponent,
   }
 }
 </script>

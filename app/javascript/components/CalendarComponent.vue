@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div id="form-modal">
+      <CreateComponent ref="form"></CreateComponent>
+    </div>
 
     <v-menu bottom right>
       <template v-slot:activator="{ on }">
@@ -42,11 +45,17 @@
 
 
 <script>
+  import CreateComponent from "../components/CreateComponent";
+
   export default {
+    name: 'CalendarComponent',
     data: () => ({
     today: `2020-05-19`,
     type:'month',
     datas:[],
+    components: {
+      CreateComponent
+    },
     events: [
         {
           name: 'あたりまえ体操をする',
