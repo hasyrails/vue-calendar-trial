@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div id="form-modal">
+      <createComponent ref="form"></createComponent>
+    </div>
 
     <v-menu bottom right>
       <template v-slot:activator="{ on }">
@@ -35,6 +38,7 @@
           :events="events"
           color="primary"
           @click:date="showDay"
+          @click:day="createEvent"
       ></v-calendar>
     </v-sheet>
   </div>
@@ -42,7 +46,9 @@
 
 
 <script>
+  import createComponent from '../components/CreateComponent'
   export default {
+    name: 'calendarComponent',
     data: () => ({
     today: `2020-05-19`,
     type:'month',
@@ -60,18 +66,21 @@
         },
       ],
     }),
+    components: {
+      createComponent
+    },
     computed:{
-   
     },
     mounted () {
 
     },
     methods:{
-      showDay( e ){
-        console.log(e)
-        // 今日の日付に設定する。
+      showDay( { date } ){
         this.today = date
         this.type = 'day'
+      },
+      createEvent({ date }){
+        this.$refs.form.open(date);
       }
     }
   }
