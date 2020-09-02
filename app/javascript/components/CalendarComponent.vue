@@ -37,6 +37,7 @@
           :value="today"
           :events="events"
           color="primary"
+          @click:event="clickEvent"
           @click:date="showDay"
           @click:day="createEvent"
       ></v-calendar>
@@ -86,6 +87,16 @@
         console.log("calendarcompoennt.xue");
         this.events.push(params);
         console.log(`保存しました。${params}`)
+      },
+       // event → day の順番で呼ばれる。
+      clickEvent( {nativeEvent,event} ){
+        console.log("clickEvetn");
+        console.log(event);
+        console.log(event.name)
+        
+        //次にcreateEventが走ってしまうのを防御する
+        nativeEvent.stopPropagation();
+        
       }
     }
   }
