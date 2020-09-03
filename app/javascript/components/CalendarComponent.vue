@@ -82,6 +82,8 @@
 
 <script>
   import createComponent from '../components/CreateComponent'
+  import axios from 'axios'
+
   export default {
     name: 'calendarComponent',
     data: () => ({
@@ -112,7 +114,13 @@
     computed:{
     },
     mounted () {
-
+      axios.get('/')
+        .then( res => {
+          this.events = res.data;
+        })
+        .catch( e => {
+          console.log(e);
+        })
     },
     methods:{
       showDay( { date } ){
@@ -122,10 +130,17 @@
       createEvent({ date }){
         this.$refs.form.open(date);
       },
-      saveEvent(params){
-        console.log("calendarcompoennt.xue");
-        this.events.push(params);
-        console.log(`保存しました。${params}`)
+      async saveEvent(params){
+        await axios.post('/create',params)
+        .then( res => {
+          console.log(res);
+        })
+        .catch( e => {
+          console.log(e);
+        })
+        .finally( () => {
+          
+        })
       },
        // event → day の順番で呼ばれる。
       clickEvent( {nativeEvent,event} ){
