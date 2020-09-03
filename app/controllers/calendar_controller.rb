@@ -19,6 +19,11 @@ class CalendarController < ApplicationController
     end
   end
 
+  def destroy
+    @calendar.destroy
+    redirect_to calendar_path
+  end
+
   private
 
   def calendar_params
