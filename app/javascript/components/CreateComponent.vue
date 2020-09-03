@@ -24,7 +24,7 @@
                 </v-chip>
                 <v-time-picker v-model="start" width="252"></v-time-picker>
               </v-col>
-
+  
 
               <v-col cols="6" sm="6" md="6">
                 <v-chip
