@@ -2,12 +2,14 @@
   <div id="app">
     <v-app>
       <calenderComponent></calenderComponent>
+      <Modal></Modal>
     </v-app>
   </div>
 </template>
 
 <script>
 import calenderComponent from "./components/CalendarComponent.vue";
+// import Modal from './components/Modal'
 // import createComponent from "./components/CreateComponent.vue";
 
 export default {
@@ -17,6 +19,7 @@ export default {
   },
   components: {
     calenderComponent,
+    // Modal,
     // createComponent
   }
 }

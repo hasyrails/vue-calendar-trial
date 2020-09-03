@@ -70,18 +70,22 @@
         <v-btn
           text
           color="error"
-          @click="deleteEvent"
+          @click="deleteTarget = selectedEvent.id; showModal = true"
         >
           削除
         </v-btn>
       </v-card>
     </v-menu>
+     <Modal v-if="showModal" @cancel="showModal = false" @ok="deleteEvent(); showModal = false;">
+      <div slot="body">Are you sure?</div>
+    </Modal>
   </div>
 </template>
 
 
 <script>
   import createComponent from '../components/CreateComponent'
+  import Modal from '../components/Modal'
   import axios from 'axios'
 
   export default {
@@ -107,16 +111,20 @@
       eventAlert:false,
       selectedItem : null,
       selectedEvent : {},
+      deleteTarget: -1,
+      showModal: false,
     }),
     components: {
-      createComponent
+      createComponent,
+      Modal
     },
     computed:{
     },
     mounted () {
       axios
       .get('/api/calendar.json')
-      .then(response => (this.events = response.data))
+      .then(response => (this.events = response.data));
+      this.updateEvent();
     },
     methods:{
       showDay( { date } ){
@@ -147,15 +155,30 @@
         //次にcreateEventが走ってしまうのを防御する
         nativeEvent.stopPropagation();
       },
-      deleteEvent(){
-        // 正しい削除処理はLaravelがまだできない
-        // とりあえずnewArrayにfilterした結果を突っ込んで返すだけ。
-        let newArray = this.events.filter( item => {
-          return item.id != this.selectedEvent.id
-      });
-        this.events = newArray;
-        this.eventAlert = false;
+      deleteEvent: function() {
+      if (this.deleteTarget <= 0) {
+        console.warn('deleteTarget should be grater than zero.');
+        return;
       }
+
+      axios
+        .delete(`/api/calendar/${this.deleteTarget}`)
+        .then(response => {
+          this.deleteTarget = -1;
+          this.updateEvent();
+        })
+        .catch(error => {
+          console.error(error);
+          if (error.response.data && error.response.data.errors) {
+            this.errors = error.response.data.errors;
+          }
+        });
+    },
+    updateEvent: function() {
+      axios
+        .get('/api/calendar.json')
+        .then(response => (this.events = response.data))
+    }
     }
   }
 </script>

@@ -1,5 +1,5 @@
 class Api::CalendarController < ApiController
-  before_action :set_calendar, only: [:show]
+  before_action :set_calendar, only: [:show, :update,:destroy]
 
   # ActiveRecordのレコードが見つからなければ404 not foundを応答する
   rescue_from ActiveRecord::RecordNotFound do |exception|
@@ -22,6 +22,19 @@ class Api::CalendarController < ApiController
     else
       render json: { errors: calendar.errors.full_messages }, status: :unprocessable_entity
     end
+  end
+
+  def update
+    if @calendar.update_attributes(calendar_params)
+      head :no_content
+    else
+      render json: { errors: @calendar.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @calendar.destroy!
+    head :no_content
   end
 
   private
